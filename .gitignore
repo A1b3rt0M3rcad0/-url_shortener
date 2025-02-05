@@ -1,0 +1,78 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.pyc
+*.pyo
+*.so
+
+# Virtual Environment
+venv/
+env/
+.venv/
+.env/
+
+# IDEs e editores
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Logs e Debug
+*.log
+*.pot
+*.mo
+*.sqlite3
+*.db
+*.pid
+*.dump
+
+# Pytest
+.cache/
+*.cover
+coverage.xml
+htmlcov/
+.tox/
+.pytest_cache/
+
+# Pylint
+.pylint.d/
+
+# Pre-commit
+.pre-commit-hooks.yaml
+.pre-commit-cache/
+.pre-commit/
+
+# Arquivos temporários e de backup
+*.tmp
+*.bak
+*.swp
+*.lock
+*~
+
+# Configurações do sistema
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+
+# Arquivos de build
+build/
+dist/
+*.egg-info/
+*.egg
+MANIFEST
+
+# Configurações Flask
+instance/
+*.env
+*.flaskenv
+
+# Arquivos de teste e relatórios
+nosetests.xml
+test-results/
+junit-*.xml
+
+# Configurações de ambiente
+.envrc
