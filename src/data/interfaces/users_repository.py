@@ -4,18 +4,14 @@ from src.domain.models.users import Users
 
 class UsersRepositoryInterface(ABC):
 
-    @staticmethod
     @abstractmethod
-    def create(username:str, password:str) -> None:pass
+    def create(self, username:str, password:str) -> None:pass
 
-    @staticmethod
     @abstractmethod
-    def select(username:str) -> List[Users]:pass
+    def select(self, username:str) -> List[Users]:pass
 
-    @staticmethod
     @abstractmethod
-    def delete(username:str) -> None:pass
+    def delete(self, username:str) -> None:pass
 
-    @staticmethod
     @abstractmethod
-    def update(username:str, update_params:Dict) -> None:pass
+    def update(self, username:str, update_params:Dict) -> None:pass
