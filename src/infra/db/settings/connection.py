@@ -4,10 +4,11 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import Engine
+from src.domain.interfaces.connection import DBConnectionHandlerInterface
 
 load_dotenv()
 
-class DBConnectionHandler:
+class DBConnectionHandler(DBConnectionHandlerInterface):
 
     def __init__(self) -> None:
 
