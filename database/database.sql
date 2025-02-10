@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS clean_database;
+CREATE DATABASE IF NOT EXISTS urls_database;
 
-USE clean_database;
+USE urls_database;
 
 CREATE TABLE users(
 id int auto_increment primary key,
