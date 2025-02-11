@@ -121,3 +121,33 @@ def test_delete_url():
     cleanup(user_id, mocked_username)
 
     assert not test_url
+
+@pytest.mark.skip('Sensitive Test')
+def test_update_url():
+    mocked_username = 'username'
+    mocked_password = 'password'
+    mocked_url = 'http://www.example.com'
+    mocked_shortened_url = 'http://shorte.me'
+    mocked_is_active = 1
+    mocked_created_at = datetime.now(timezone.utc)
+    insert_user(mocked_username, 
+                mocked_password, 
+                mocked_is_active, 
+                mocked_created_at)
+    user_id = get_user_id(mocked_username)
+    insert_url(user_id, mocked_url, mocked_shortened_url)
+
+    url = get_url(user_id)
+
+    urls_repository = UrlsRepository(DBConnectionHandler)
+    update_params = {
+        'link': 'http://www.google.com'
+    }
+    urls_repository.update(url[0], update_params)
+
+    edited_url = get_url(user_id)
+    new_link = edited_url[1]
+
+    cleanup(user_id, mocked_username)
+
+    assert new_link == update_params['link']

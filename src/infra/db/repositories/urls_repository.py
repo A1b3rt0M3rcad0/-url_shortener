@@ -45,7 +45,7 @@ class UrlsRepository(UrlsRepositoryInterface):
         with self.__database_connection() as database:
             try:
                 database.session.query(UrlsEntity)\
-                    .filter(UrlsEntity.username == url_id)\
+                    .filter(UrlsEntity.id == url_id)\
                     .update(update_params)
                 database.session.commit()
             except Exception as exception:
