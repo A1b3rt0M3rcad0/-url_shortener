@@ -23,6 +23,19 @@ def insert_user(username, password, is_active, created_at):
 
     return get_user_id(username)
 
+def insert_url(user_id, link, shortened_link):
+    sql = '''
+    INSERT INTO urls (user_id, link, shortened_link)
+    VALUES (:user_id, :link, :shortened_link)
+    '''
+    with connection.connect() as conn:
+        conn.execute(text(sql),{
+            'user_id': user_id,
+            'link': link,
+            'shortened_link': shortened_link
+        })
+        conn.commit()
+
 def get_user_id(username):
     sql = 'SELECT id FROM users WHERE username = :username'
     with connection.connect() as conn:
@@ -58,3 +71,27 @@ def test_create_url():
 
     assert registry.link == mocked_url
     assert registry.shortened_link == mocked_shortened_url
+
+@pytest.mark.skip('Sensitive Test')
+def test_select_url():
+    mocked_username = 'username'
+    mocked_password = 'password'
+    mocked_url = 'http://www.example.com'
+    mocked_shortened_url = 'http://shorte.me'
+    mocked_is_active = 1
+    mocked_created_at = datetime.now(timezone.utc)
+    insert_user(mocked_username, 
+                mocked_password, 
+                mocked_is_active, 
+                mocked_created_at)
+    user_id = get_user_id(mocked_username)
+    insert_url(user_id, mocked_url, mocked_shortened_url)
+
+    urls_repository = UrlsRepository(DBConnectionHandler)
+    urls = urls_repository.select(user_id)
+
+    cleanup(user_id, mocked_username)
+
+    assert urls[0].user_id == user_id
+    assert urls[0].link == mocked_url
+    assert urls[0].shortened_link == mocked_shortened_url

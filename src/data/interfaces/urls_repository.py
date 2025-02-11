@@ -8,7 +8,7 @@ class UrlsRepositoryInterface(ABC):
     def create(self, user_id:int, link:str, shortened_link:str) -> None:pass
 
     @abstractmethod
-    def select(self, url_id: int) -> List[Urls]:pass
+    def select(self, user_id: int) -> List[Urls]:pass
 
     @abstractmethod
     def delete(self, url_id:str) -> None:pass

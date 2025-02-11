@@ -19,11 +19,11 @@ class UrlsRepository(UrlsRepositoryInterface):
                 database.session.rollback()
                 raise exception
     
-    def select(self, url_id:int) -> List[Urls]:
+    def select(self, user_id:int) -> List[Urls]:
         with self.__database_connection() as database:
             try:
                 urls = database.session.query(UrlsEntity)\
-                .filter(UrlsEntity.id == url_id)\
+                .filter(UrlsEntity.user_id == user_id)\
                 .all()
                 return urls
             except Exception as exception:
