@@ -20,7 +20,7 @@ PyMySQL==1.1.1
 pytest==8.3.4
 python-dotenv==1.0.1
 PyYAML==6.0.2
-SQLAlchemy==2.0.37
+SQLAlchemy==2.0.38
 tomlkit==0.13.2
 typing_extensions==4.12.2
 virtualenv==20.29.1

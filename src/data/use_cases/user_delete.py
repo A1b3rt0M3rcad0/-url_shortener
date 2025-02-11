@@ -17,13 +17,19 @@ class UserDelete(UserDeleteInterface):
     def delete(self, username:str) -> Dict:
 
         self.__validate_username(username)
+
         user_repository = self.__user_repository(self.__database_connection)
 
-        if self.__check_if_the_user_exists(username, user_repository):
+        self.__validate_user_existence(username, user_repository)
+
+        try:
             user_repository.delete(username)
-            return self.__format_response(username, success=True)
-        return self.__format_response(username, success=False)
-    
+        except Exception as e:
+            message = f"Failed to delete user: {e}"
+            raise HttpBadRequestError(message) from e
+
+        return self.__format_response(username)
+
     @staticmethod
     def __validate_username(username:str) -> None:
         
@@ -36,18 +42,18 @@ class UserDelete(UserDeleteInterface):
         if not re.match(r'^[a-zA-Z0-9_-]+$', username):
             raise HttpBadRequestError('The username can only contain letters, numbers, underscores, and hyphens')
     
-    def __check_if_the_user_exists(self, username:str, user_repository:UsersRepositoryInterface) -> bool:
+    def __validate_user_existence(self, username:str, user_repository:UsersRepositoryInterface) -> None:
         user = user_repository.select(username)
-        return bool(user)
+        if not user:
+            raise HttpBadRequestError('User does not exist')
     
     @staticmethod
-    def __format_response(username:str, success:bool) -> Dict:
+    def __format_response(username:str) -> Dict:
         response = {
             'type': 'Users',
             'count': 1,
             'attributes': {
                 'username': username
-            },
-            'success': success
+            }
         }
         return response
