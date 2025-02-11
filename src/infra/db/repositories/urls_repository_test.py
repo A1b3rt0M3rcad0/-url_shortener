@@ -43,7 +43,7 @@ def get_user_id(username):
         return response.scalar()  # Retorna apenas o valor da primeira coluna
 
 def get_url(user_id):
-    sql = 'SELECT link, shortened_link FROM urls WHERE user_id = :user_id'
+    sql = 'SELECT id, link, shortened_link FROM urls WHERE user_id = :user_id'
     with connection.connect() as conn:
         return conn.execute(text(sql), {"user_id": user_id}).fetchone()
 
@@ -95,3 +95,29 @@ def test_select_url():
     assert urls[0].user_id == user_id
     assert urls[0].link == mocked_url
     assert urls[0].shortened_link == mocked_shortened_url
+
+@pytest.mark.skip('Sensitive Test')
+def test_delete_url():
+    mocked_username = 'username'
+    mocked_password = 'password'
+    mocked_url = 'http://www.example.com'
+    mocked_shortened_url = 'http://shorte.me'
+    mocked_is_active = 1
+    mocked_created_at = datetime.now(timezone.utc)
+    insert_user(mocked_username, 
+                mocked_password, 
+                mocked_is_active, 
+                mocked_created_at)
+    user_id = get_user_id(mocked_username)
+    insert_url(user_id, mocked_url, mocked_shortened_url)
+
+    url = get_url(user_id)
+
+    urls_repository = UrlsRepository(DBConnectionHandler)
+    urls_repository.delete(url[0])
+
+    test_url = get_url(user_id)
+
+    cleanup(user_id, mocked_username)
+
+    assert not test_url
