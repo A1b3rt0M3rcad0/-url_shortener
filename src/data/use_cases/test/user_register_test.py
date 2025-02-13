@@ -27,11 +27,10 @@ def test_register_format_response():
     user_register = UserRegister(UsersRepository, TDBConnectionHandler)
     response = user_register.register(mocked_username, mocked_password)
 
+    cleanup(0, mocked_username)
     assert response['attributes']['username'] == mocked_username
     assert response['type'] == 'Users'
     assert response['count'] == 1
-
-    cleanup(0, mocked_username)
 
 def test_register_validate_username():
     mocked_username = '  username'
